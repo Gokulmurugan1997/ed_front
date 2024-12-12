@@ -38,8 +38,9 @@ function Signin() {
     };
   return (
     <div className="container1">
-        <div className="login-img"></div>
+       <div className='cont'>
         <div className="login_wrapper">
+        <div className="login-img"></div>
             <div className="login_header">
                 <h1><b>Sign up</b></h1>
                 
@@ -100,6 +101,7 @@ function Signin() {
 
                 </div>
             </Form>
+        </div>
         </div>
     </div>
 );

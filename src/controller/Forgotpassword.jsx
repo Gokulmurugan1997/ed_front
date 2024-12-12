@@ -31,8 +31,9 @@ function ForgetPassword() {
 
   return (
     <div className="container1">
-      <div className="login-img"></div>
+     <div className="cont">
       <div className="login_wrapper">
+      <div className="login-img"></div>
         <div className="login_header">
           <h1><b>Forget Password</b></h1>
         </div>
@@ -61,6 +62,7 @@ function ForgetPassword() {
             </Button>
           </div>
         </Form>
+      </div>
       </div>
     </div>
   );
