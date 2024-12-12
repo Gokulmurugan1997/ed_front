@@ -1,7 +1,7 @@
 import axios from "axios";
 
 let AxiosService = axios.create({
-    baseURL:"http://localhost:8002",
+    baseURL:"https://ed-back-fiqz.onrender.com",
     headers:{
         "Content-Type":"application/json"
     }
