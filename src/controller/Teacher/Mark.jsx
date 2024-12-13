@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import AxiosService from "../../utils/Axiosservice";
 import Apiroutes from "../../utils/Apiroutes";
 import { Button, Form, Card } from "react-bootstrap";
-import { toast } from "react-toastify";
+import toast from 'react-hot-toast';
 import { useNavigate } from "react-router-dom";
-
 
 function Mark() {
   const navigate = useNavigate();
@@ -35,7 +34,18 @@ function Mark() {
     );
   };
 
+  const validateForm = () => {
+    const { StudentEmail, TeacherEmail, English, Maths, History, Science, Geography } = marks;
+    if (!StudentEmail || !TeacherEmail || !English || !Maths || !History || !Science || !Geography) {
+      toast.error("Please fill in all the fields.");
+      return false;
+    }
+    return true;
+  };
+
   const handleClick = async () => {
+    if (!validateForm()) return;
+
     setLoading(true);
     try {
       const data = { ...marks };
@@ -43,18 +53,15 @@ function Mark() {
 
       if (res.status === 200) {
         toast.success("Student details submitted successfully!");
-        navigate("/home");
       } else {
         toast.error("Failed to submit student details.");
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || "Error occurred.");
+      toast.error(error?.response?.data?.message || "Error occurred.");
     } finally {
       setLoading(false);
     }
   };
-
-
 
   return (
     <div className="teacher-container">
@@ -73,7 +80,6 @@ function Mark() {
                   value={marks.TeacherEmail}
                   onChange={handleMarkChange}
                   placeholder="Enter Teacher's Email"
-                
                 />
               </Form.Group>
 
@@ -96,6 +102,8 @@ function Mark() {
                   value={marks.English}
                   onChange={handleMarkChange}
                   placeholder="Enter Marks"
+                  min="0"
+                  max="100"
                 />
               </Form.Group>
 
@@ -107,6 +115,8 @@ function Mark() {
                   value={marks.Maths}
                   onChange={handleMarkChange}
                   placeholder="Enter Marks"
+                  min="0"
+                  max="100"
                 />
               </Form.Group>
 
@@ -118,6 +128,8 @@ function Mark() {
                   value={marks.History}
                   onChange={handleMarkChange}
                   placeholder="Enter Marks"
+                  min="0"
+                  max="100"
                 />
               </Form.Group>
 
@@ -129,6 +141,8 @@ function Mark() {
                   value={marks.Science}
                   onChange={handleMarkChange}
                   placeholder="Enter Marks"
+                  min="0"
+                  max="100"
                 />
               </Form.Group>
 
@@ -140,6 +154,8 @@ function Mark() {
                   value={marks.Geography}
                   onChange={handleMarkChange}
                   placeholder="Enter Marks"
+                  min="0"
+                  max="100"
                 />
               </Form.Group>
 

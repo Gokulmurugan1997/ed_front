@@ -5,25 +5,28 @@ import Apiroutes from '../../utils/Apiroutes';
 import toast from 'react-hot-toast';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import TimePicker from 'react-time-picker';
 import { useNavigate } from 'react-router-dom';
 
-
 function Timetable() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [StudentEmail, setStudentEmail] = useState('');
   const [timetable, setTimetable] = useState([
-    { subject: 'Math', date: '', time: '' },
-    { subject: 'Science', date: '', time: '' },
-    { subject: 'English', date: '', time: '' },
-    { subject: 'History', date: '', time: '' },
-    { subject: 'Geography', date: '', time: '' },
+    { subject: 'Math', date: '', time: '00:00' },
+    { subject: 'Science', date: '', time: '00:00' },
+    { subject: 'English', date: '', time: '00:00' },
+    { subject: 'History', date: '', time: '00:00' },
+    { subject: 'Geography', date: '', time: '00:00' },
   ]);
 
-  const handleTimetableChange = (index, e) => {
-    const { name, value } = e.target;
+  const handleDateChange = (index, date) => {
     const newTimetable = [...timetable];
-    newTimetable[index][name] = value;
+    newTimetable[index].date = date;
+    setTimetable(newTimetable);
+  };
+
+  const handleTimeChange = (index, time) => {
+    const newTimetable = [...timetable];
+    newTimetable[index].time = time;
     setTimetable(newTimetable);
   };
 
@@ -34,8 +37,7 @@ function Timetable() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(timetable);
-      const response = await AxiosService.post(Apiroutes.TIMETABLE.path, { 
+      const response = await AxiosService.post(Apiroutes.TIMETABLE.path, {
         StudentEmail,
         timetable,
       });
@@ -47,10 +49,9 @@ function Timetable() {
     }
   };
 
-  return <>
+  return (
     <div className="timetable-container">
       <h1 className="header text-center mb-4">Timetable</h1>
-
       <Form onSubmit={handleSubmit}>
         <div className="form-group mb-3">
           <Form.Label>Student Email:</Form.Label>
@@ -62,14 +63,13 @@ function Timetable() {
             required
           />
         </div>
-
         {timetable.map((test, index) => (
           <div key={index} className="test-entry mb-4">
             <div className="form-group mb-3">
               <Form.Label>{test.subject} Date:</Form.Label>
               <DatePicker
                 selected={test.date ? new Date(test.date) : null}
-                onChange={(date) => handleTimetableChange(index, { target: { name: 'date', value: date } })}
+                onChange={(date) => handleDateChange(index, date)}
                 dateFormat="yyyy/MM/dd"
                 className="form-control"
                 required
@@ -78,25 +78,27 @@ function Timetable() {
             </div>
             <div className="form-group mb-3">
               <Form.Label>{test.subject} Time:</Form.Label>
-              <TimePicker
+              <input
+                type="time"
                 value={test.time}
-                onChange={(time) => handleTimetableChange(index, { target: { name: 'time', value: time } })}
+                onChange={(e) => handleTimeChange(index, e.target.value)}
                 className="form-control"
                 required
-                clockIcon={null}
-                clearIcon={null}
               />
             </div>
           </div>
         ))}
-
         <div className="text-center">
-          <Button type="submit" variant="primary">Save Timetable</Button>
-          <Button variant="primary" onClick={()=>navigate('/teacher')}>Back</Button>
+          <Button type="submit" variant="primary">
+            Save Timetable
+          </Button>
+          <Button variant="primary" onClick={() => navigate('/teacher')}>
+            Back
+          </Button>
         </div>
       </Form>
     </div>
-    </>
+  );
 }
 
 export default Timetable;
