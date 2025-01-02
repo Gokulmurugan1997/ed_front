@@ -6,7 +6,7 @@ import Logout from './Logout';
 
 function Home() {
   const navigate = useNavigate();
-
+ 
   const handleTeacherClick = () => {
     const role = sessionStorage.getItem('role');
     if (role === 'teacher') {navigate("/teacher")}

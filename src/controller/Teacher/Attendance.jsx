@@ -37,16 +37,19 @@ function Attendance() {
     const attendancePercentage = calculateAttendancePercentage();
 
     try {
-      const response = await AxiosService.post(Apiroutes.ATTENDNANCE.path, {
+      const response = await AxiosService.post(Apiroutes.ATTENDANCE.path, {
         StudentEmail: attendance.StudentEmail,
-        attendancePercentage: attendancePercentage,
-      });
+        AttendancePercentage: attendancePercentage},
+        {authenticate:Apiroutes.STUDENTDETAILS.authenticate}
+      );
 
       if (response.status === 200) {
         toast.success('Attendance saved successfully');
       }
     } catch (error) {
-      toast.error('Error saving attendance: ' + error.message);
+      toast.error(error?.response?.data?.message || "Error occurred.");
+      if(error.response.data.message=="Token Expired"){
+        navigate('/login')}
     }
   };
 

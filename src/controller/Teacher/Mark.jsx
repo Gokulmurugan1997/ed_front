@@ -49,7 +49,9 @@ function Mark() {
     setLoading(true);
     try {
       const data = { ...marks };
-      const res = await AxiosService.post(Apiroutes.STUDENTDETAILS.path, data);
+      const res = await AxiosService.post(Apiroutes.STUDENTDETAILS.path, data,{
+        authenticate:Apiroutes.STUDENTDETAILS.authenticate
+      });
 
       if (res.status === 200) {
         toast.success("Student details submitted successfully!");
@@ -58,6 +60,8 @@ function Mark() {
       }
     } catch (error) {
       toast.error(error?.response?.data?.message || "Error occurred.");
+      if(error.response.data.message=="Token Expired"){
+        navigate('/login')}
     } finally {
       setLoading(false);
     }

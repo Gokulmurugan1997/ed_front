@@ -17,19 +17,19 @@ const Apiroutes = {
     },
     STUDENTDETAILS:{
         path:"/ed/student",
-        authenticate:false
+        authenticate:true
     },
-    ATTENDNANCE:{
+    ATTENDANCE:{
         path:"/ed/attendance",
-        authenticate:false
+        authenticate:true
     },
     TIMETABLE:{
         path:"/ed/timetable",
-        authenticate:false
+        authenticate:true
     },
     GETDETAILS:{
         path:"/ed/getdetails",
-        authenticate:false
+        authenticate:true
     }
 }
 

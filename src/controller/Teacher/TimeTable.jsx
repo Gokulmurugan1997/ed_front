@@ -40,12 +40,15 @@ function Timetable() {
       const response = await AxiosService.post(Apiroutes.TIMETABLE.path, {
         StudentEmail,
         timetable,
+        authenticate:Apiroutes.TIMETABLE.authenticate
       });
       if (response.status === 200) {
         toast.success('Timetable saved successfully');
       }
     } catch (error) {
-      toast.error('Error saving timetable: ' + error.message);
+      toast.error(error?.response?.data?.message || "Error occurred.");
+      if(error.response.data.message=="Token Expired"){
+        navigate('/login')}
     }
   };
 

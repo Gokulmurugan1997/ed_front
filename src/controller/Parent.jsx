@@ -18,14 +18,16 @@ function Parent() {
     e.preventDefault();
     try {
       const res = await AxiosService.get(Apiroutes.GETDETAILS.path, {
-        params: { StudentEmail }
+        params: { StudentEmail }, authenticate:Apiroutes.GETDETAILS.authenticate
       });
 
       setStudentDetails(res.data);
 
       toast.success('Student details fetched successfully!');
     } catch (error) {
-      toast.error('Error fetching student details: ' + error.message);
+      toast.error(error?.response?.data?.message || "Error occurred.");
+      if(error.response.data.message=="Token Expired"){
+                navigate('/login')}
     }
   };
 
